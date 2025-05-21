@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block carousel %}
+
+{% endblock carousel %}
+
+{% block content %}
+<div class="container-fluid p-3">
+    <div class="row">
+        {% comment %} cart products {% endcomment %}
+        <div class="col-8">
+            {% for cart in mycart %}
+            <div class="card mb-3 p-3" style="max-width: 80%;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="{{cart.product.image.url}}" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{cart.product.name}}</h5>
+                      <p class="card-text">Price: {{cart.product.price}}</p>
+                      <div class='fw-semibold'>
+                        Quantity : 
+                        <a href="{% url "update-quantity" id=cart.product.id %}?q=0" class='btn btn-warning'>-</a>
+                        <span>{{cart.quantity}}</span>
+                        <a href="{% url "update-quantity" id=cart.product.id %}?q=1" class='btn btn-primary'>+</a>
+
+                      </div>
+                      <a href="{% url "remove-cart" id=cart.product.id %}" class='btn btn-sm btn-danger m-3'>Remove</a>
+                      <a href="" class='btn btn-sm btn-secondary m-3'>Wishlist</a>
+                      <p class="card-text"><small class="text-body-secondary">Last updated {{cart.updated_at}}</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% empty %} 
+            <h4>No items added yet</h4>          
+            {% endfor %}
+        </div>
+        {% comment %} total amount {% endcomment %}
+        <div class="col-4">
+          <div class="row">
+            <h3>Order Summary</h3>
+            <h6>Total Items ({{total_items}})</h6>
+
+            {% for cart in mycart %}
+            <p>{{cart.product.name | truncatechars:40 }}
+              <span class='ms-3'>{{cart.product.price}} X {{cart.quantity}}</span>
+            </p>
+            {% endfor %}
+            <p class='fw-semibold'>GST 3% - {{gst}}/-</p>
+            <p class='fw-semibold'>Delivery - 0/-</p>
+            <p class='fw-semibold'>Total Amount - {{total_amount|add:gst}}/-</p>
+            <a href="{% url "address" %}" class='btn btn-success'>Proceed to Checkout</a>
+
+
+
+          </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

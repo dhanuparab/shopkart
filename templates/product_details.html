@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block carousel %}
+
+{% endblock carousel %}
+
+
+{% block content %}
+
+<div class="container-fluid p-3">
+    <div class="row">
+        {% comment %} image section {% endcomment %}
+        <div class="col-4 position">
+            <div class=' text-center'>
+                <img src="{{product.image.url}}" alt="" width='80%'>
+            </div>
+            <div class='text-center'>
+                <a href="" class='btn btn-warning '>Buy Now</a>
+                <a href="{% url "add-to-cart" id=product.id %}" class='btn btn-primary m-3'>Add To Cart</a>
+            </div>
+        </div>
+        {% comment %} details section {% endcomment %}
+        <div class="col-8" style='height:100vh; overflow-y:auto'>
+            <p class='fw-semibold'>{{product.name}}</p>
+            <p class='fw-semibold'>₹ {{product.price}}/- 
+            <span class='text-secondary'><del>{{product.price|add:product.price}}/-</del></span>
+            <span class="text-success">50% off</span></p>
+
+            <div>
+                <h5>Available Offers</h5>
+
+                {% if product.category.name == 'mobile' or product.category.name == 'laptop' %}
+                <ul>
+                    <li>Special PriceGet extra 22% off (price inclusive of cashback/coupon)T&C</li>
+                    <li>Bank Offer5% Unlimited Cashback on Flipkart Axis Bank Credit CardT&C</li>
+                    <li>Bank Offer10% instant discount on SBI Credit Card EMI Transactions, up to ₹1,500 on orders of ₹5,000 and aboveT&C</li>
+                    <li>Bank Offer10% off up to ₹1,000 on all Axis Bank Credit Card (incl. migrated ones) EMI Txns of ₹7,490 and aboveT&C</li>
+                    <li>Bank Offer10% off on BOBCARD EMI Transactions, up to ₹1,500 on orders of ₹5,000 and aboveT&C</li>
+                </ul>
+                {% else %}
+                <ul>
+                    <li>Special PriceGet extra 58% off (price inclusive of cashback/coupon)T&C   </li>
+                    <li>Combo OfferBuy 2 items save ₹20; Buy 3 or more save ₹40See all productsT&C     </li>
+                </ul>
+                {% endif %}   
+            </div>
+            <div>
+                <p class='fw-semibold'>Delivery By - {{date}} | <span class='text-success'>FREE</span></p>
+                <p class='fw-semibold'>Highlights</p>
+                {% comment %} <p class='ps-3'>{{product.description | linebreaksbr}}</p> {% endcomment %}
+                <ul>
+                    {% for line in product.description.splitlines %}
+                    <li>{{line}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row m-3">
+        {% for product in related_products %}
+        <div class="col">
+        <a href="{% url "product-details" id=product.id %}" class='nav-link'>
+            <div class="card" style="width: 12rem;">
+
+                <div style="height:200px;padding:5px;">
+                    <img src="{{product.image.url}}" class="card-img-top" alt="..." style="max-height:100%;max-width:100%;">
+                </div>
+                
+                <div class="card-body">
+                  <h5 class="card-title">{{product.name|truncatechars:10}}</h5>
+                  <p class="card-text">{{product.price}}</p>
+                </div>
+            </div>
+        </a>
+        </div>
+        {% empty %}
+        <p>No Products Found</p> 
+    
+        {% endfor %}  
+    </div>
+</div>
+
+{% endblock content %}

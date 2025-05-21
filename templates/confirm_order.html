@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header %}
+
+{% endblock header %}
+
+{% block carousel %}
+
+{% endblock carousel %}
+
+{% block content %}
+<div class="container-fluid p-3 mt-3">
+    <div class="row w-50 bg-body-tertiary shadow mx-auto text-center p-3">
+        <h2 class='text-center text-success'>Confirm Your Order</h2>
+
+        <h6>Total Items ({{total_items}})</h6>
+
+        {% for cart in mycart %}
+            <p>{{cart.product.name | truncatechars:40 }}
+              <span class='ms-3'>{{cart.product.price}} X {{cart.quantity}}</span>
+            </p>
+        {% endfor %}
+
+        <p class='fw-semibold'>GST 3% - {{gst}}/-</p>
+            <p class='fw-semibold'>Delivery - 0/-</p>
+            <p class='fw-semibold'>Total Amount - {{total_amount|add:gst}}/-</p>
+            
+            <p class='text-primary fw-semibold fs-5'>Shipping Address</p>
+            <p class='fw-semibold'>Address Line - {{address.address_line | linebreaksbr}}  {{address.street}} {{address.city}} {{address.state}} {{address.landmark}} {{address.pincode}}</p>
+
+            <a href="{% url "payment" id=address.id %}" class='btn btn-success'>Proceed to Pay</a>
+        </div>
+{% endblock content %}
+
+{% block footer %}
+
+{% endblock footer %}

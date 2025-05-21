@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block carousel %}
+
+{% endblock carousel %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        {% comment %} select addresses {% endcomment %}
+        <div class="col-6 p-3">
+            <h3>Saved Addresses</h3>
+        {% for address in addresses %}
+        <a href="{% url "confirm-order" id=address.id %}" class='nav-link'>
+        <div class="m-3 border rounded p-2">
+            <p>Address Line - {{address.address_line | linebreaksbr}}  {{address.street}} {{address.city}} {{address.state}} {{address.landmark}} {{address.pincode}}</p>
+            <a href="" class='btn btn-warning btn-sm'>Edit</a>
+            <a href="" class='btn btn-danger btn-sm'>Remove</a>
+
+        </div>
+    </a>
+
+        {% endfor %}        
+    </div>
+        {% comment %} add addresses {% endcomment %}
+        <div class="col-6 ">
+            <h3>Add Address</h3>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
